@@ -24,7 +24,7 @@ body {
 }
 body * {
     /* DEVELOPMENT ONLY */
-    border: 1px dotted red;
+    /* border: 1px dotted red; */
 }
 
 nav, footer {
@@ -77,19 +77,21 @@ main>div>p {
     align-items: center;
 }
 #questionDiv>p {
-    padding: 0 0.75rem;
+    padding: 0 0.6rem;
     font-size: 3.5rem;
 }
 
 input {
     /* min-height: 5rem; */
-    font-size: 3.5rem;
+    font-size: 3rem;
+    min-height: 4.5rem;
     /* padding: 0.5rem 0; */
     width: 50%;
     border-radius: 8px;
     text-align: center;
     vertical-align: middle;
     background-color: var(--inputBg) ;
+    
 }
 
 input:focus {
@@ -99,6 +101,12 @@ input:focus {
 input:active {
     background-color: var(--inputBgActive);
     /* color: blue; */
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 button {

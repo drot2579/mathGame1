@@ -1,5 +1,4 @@
 
-// storage.checkStorage()
 {   // global
     var date = null
     var timeInter = null
@@ -29,11 +28,52 @@ const storage = {
     update(newLevel){
         storage.setLevel(newLevel)
         storage.render()
-    }
-    ,
+    },
     reset() {
         storage.setLevel(0)
         storage.render()
+    },
+}
+
+const timer = {
+    time0: 6000,
+    step: 1000,
+    time: 6000,
+    intervalObj: null,
+    render: function () {
+        el.time.innerText = timer.time
+    },
+    timerFn: function () {
+        timer.time -= timer.step
+        timer.time ?  timer.render() : game.evalInput()
+
+        // console.log("TimerFn is called");  // dev stage
+        // console.log(timer.time);  // dev stage
+        // !timer.time ? game.levelUp() : timer.render()
+    },
+    start: function () {
+        timeInter = setInterval(timer.timerFn, timer.step)
+
+        /* dev stage 
+            date = new Date
+            timeStart = date.getTime()
+            timeStartStr = date.toLocaleTimeString()
+        */
+    },
+    reset: function () {
+
+        clearInterval(timeInter)
+        timer.time = timer.time0
+        timer.render()
+        /* dev stage
+            date = new Date
+            timeEnd = date.getTime()
+            timeEndStr = date.toLocaleTimeString()
+            timeDiff = timeEnd - timeStart
+            console.log(timeDiff);
+            console.log(timeStartStr);
+            console.log(timeEndStr);
+        */
     },
 
 }
@@ -82,51 +122,6 @@ const level = {
         this.current = 0
         this.render()
     },
-
-}
-
-
-const timer = {
-    time0: 6000,
-    step: 1000,
-    time: 6000,
-    intervalObj: null,
-    render: function () {
-        el.time.innerText = timer.time
-    },
-    timerFn: function () {
-        timer.time -= timer.step
-        !timer.time ? game.evalInput() : timer.render()
-
-        // console.log("TimerFn is called");  // dev stage
-        // console.log(timer.time);  // dev stage
-        // !timer.time ? game.levelUp() : timer.render()
-    },
-    start: function () {
-        timeInter = setInterval(timer.timerFn, timer.step)
-
-        /* dev stage 
-            date = new Date
-            timeStart = date.getTime()
-            timeStartStr = date.toLocaleTimeString()
-        */
-    },
-    reset: function () {
-
-        clearInterval(timeInter)
-        timer.time = timer.time0
-        timer.render()
-        /* dev stage
-            date = new Date
-            timeEnd = date.getTime()
-            timeEndStr = date.toLocaleTimeString()
-            timeDiff = timeEnd - timeStart
-            console.log(timeDiff);
-            console.log(timeStartStr);
-            console.log(timeEndStr);
-        */
-    },
-
 }
 
 const game = {
@@ -160,7 +155,6 @@ const game = {
         // e.target.value = ""
 
     },
-
 }
 
 game.start()

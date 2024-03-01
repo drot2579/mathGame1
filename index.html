@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Math Game1</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
     <script type="module" src="script.js"></script>
 </head>
@@ -12,13 +13,14 @@
 <body>
 
     <nav>
-        <h2>Basic Math Game</h2>
+        <h2>Basic Math Game</h1>
+        <button id="settingsBtn">Settings</button>
     </nav>
 
     <main>
 
         <div id="levelDiv" class="aaa">
-            <span>Level</span>
+            <!-- <span>Level</span> -->
             <p id="level">0</p>
         </div>
 
@@ -41,6 +43,30 @@
             <span>Highest Level</span>
             <p id="highest">0</p>
         </div>
+
+        <div id="settingsCont" class="aaa hide">
+            <h2>Settings</h2>
+            
+            <label for="min">Minimum Number</label>
+            <div>
+                <input type="range" id="min" min="50" max="1000" step="50" value="50">
+                <span id="minDisplay">50</span>
+            </div>
+
+            <label for="max">Maximum Number</label>
+            <div>
+                <input type="range" id="max" min="100" max="1000" step="50" value="50">
+                <span id="maxDisplay">100</span>
+            </div>
+            
+            <label for="timeSetting">Time Limit</label>
+            <div>
+                <input type="range" id="timeSetting" min="1000" max="10000" step="1000" value="6000">
+                <span id="timeSettingDisplay">6000</span>
+            </div>
+
+        </div>
+
 
     </main>
 

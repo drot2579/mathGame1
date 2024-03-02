@@ -1,93 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Math Game1</title>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="style.css" />
     <script type="module" src="script.js"></script>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <nav>
-        <h2>Basic Math Game</h1>
-        <button id="settingsBtn">Settings</button>
+      <h1>Basic Math Game</h1>
+      <button id="settingsBtn">Settings</button>
     </nav>
 
     <main>
+      <div id="levelDiv" class="aaa">
+        <!-- <span>Level</span> -->
+        <p id="level">0</p>
+      </div>
+      
+      <div id="questionDiv" class="aaa">
+        <p id="num1">00</p>
+        <p id="sign">+</p>
+        <p id="num2">00</p>
+      </div>
 
-        <div id="levelDiv" class="aaa">
-            <!-- <span>Level</span> -->
-            <p id="level">0</p>
+      <div id="inputDiv" class="aaa">
+        <input type="number" id="input" autofocus />
+      </div>
+
+      <div id="timeDiv" class="aaa">
+        <p id="time">6000</p>
+        <span>miliseconds</span>
+      </div>
+
+      <div id="highestDiv" class="aaa">
+        <span>Highest Level</span>
+        <p id="highest">0</p>
+      </div>
+
+      <div id="settingsCont" class="aaa hide">
+        <h1>Settings</h1>
+
+        <div class="maxMinDiv">
+          <label for="min">Minimum Number</label>
+          <div>
+            <input
+              type="range"
+              id="min"
+              min="50"
+              max="950"
+              step="50"
+              value="50"
+            />
+            <span id="minDisplay">50</span>
+          </div>
+
+          <label for="max">Maximum Number</label>
+          <div>
+            <input
+              type="range"
+              id="max"
+              min="100"
+              max="1000"
+              step="50"
+              value="50"
+            />
+            <span id="maxDisplay">100</span>
+          </div>
         </div>
 
-        <div id="questionDiv" class="aaa">
-            <p id="num1">00</p>
-            <p id="sign">+</p>
-            <p id="num2">00</p>
+        <div class="timeSettingDiv">
+          <label for="timeSetting">Time Limit</label>
+          <div>
+            <input
+              type="range"
+              id="timeSetting"
+              min="1000"
+              max="10000"
+              step="1000"
+              value="6000"
+            />
+            <span id="timeSettingDisplay">6000</span>
+          </div>
         </div>
-
-        <div id="inputDiv" class="aaa">
-            <input type="number" id="input" autofocus>
-        </div>
-
-        <div id="timeDiv" class="aaa">
-            <p id="time">6000</p>
-            <span>miliseconds</span>
-        </div>
-
-        <div id="highestDiv" class="aaa">
-            <span>Highest Level</span>
-            <p id="highest">0</p>
-        </div>
-
-        <div id="settingsCont" class="aaa hide">
-            <h2>Settings</h2>
-            
-            <label for="min">Minimum Number</label>
-            <div>
-                <input type="range" id="min" min="50" max="1000" step="50" value="50">
-                <span id="minDisplay">50</span>
-            </div>
-
-            <label for="max">Maximum Number</label>
-            <div>
-                <input type="range" id="max" min="100" max="1000" step="50" value="50">
-                <span id="maxDisplay">100</span>
-            </div>
-            
-            <label for="timeSetting">Time Limit</label>
-            <div>
-                <input type="range" id="timeSetting" min="1000" max="10000" step="1000" value="6000">
-                <span id="timeSettingDisplay">6000</span>
-            </div>
-
-        </div>
-
-
+      </div>
     </main>
 
-
     <section class="pops">
-
-        <div id="welcomePop" class="pop">
-            <h1>Title</h1>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsam nesciunt dignissimos. Neque
-                temporibus natus perspiciatis doloribus architecto delectus aliquam illo quos, labore iusto illum
-                dolorum, atque cumque ea corrupti?</p>
-            <button>Start</button>
-        </div>
-
-
+      <div id="welcomePop" class="pop">
+        <h1>Title</h1>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsam
+          nesciunt dignissimos. Neque temporibus natus perspiciatis doloribus
+          architecto delectus aliquam illo quos, labore iusto illum dolorum,
+          atque cumque ea corrupti?
+        </p>
+        <button>Start</button>
+      </div>
     </section>
 
     <footer>
-        <p>- Drot -</p>
+      <p>- Drot -</p>
     </footer>
-
-</body>
-
+  </body>
 </html>

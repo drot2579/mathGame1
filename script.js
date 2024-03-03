@@ -23,32 +23,108 @@ const el = {
     highestDiv: document.getElementById("highestDiv"),
 }
 
-// Open-close Sett Window
-el.settsBtn.addEventListener("click", (e) => {
-    el.settsCont.classList.toggle("hide")
-    el.settsCont.classList.contains("hide") && game.start() // restart game after setts
-})
-el.min.addEventListener("input", (e) => {
-(+el.max.value - +el.min.value < 50) && (el.max.value = +el.min.value + 50)
+localStorage.getItem("highest") || localStorage.setItem("highest", 0)
+const storage = {
+    get lvl() {
+        return localStorage.getItem("highest")
+    },
+    setLevel(x) {
+        localStorage.setItem("highest", x)
+    },
+    render() {
+        el.highest.innerText = storage.lvl
+    },
+    update(newLevel) {
+        storage.setLevel(newLevel)
+        storage.render()
+    },
+    reset() {
+        storage.setLevel(0)
+        storage.render()
+    },
+}
 
-el.minDisp.innerText = +el.min.value
-el.maxDisp.innerText = +el.max.value
-number.start = +el.min.value
-})
-el.max.addEventListener("input", (e) => {
-  (+el.max.value - +el.min.value < 50) && (el.min.value = +el.max.value - 50)
-  
-  el.maxDisp.innerText = +el.max.value
-  el.minDisp.innerText = +el.min.value
-  
-    number.end = +el.max.value - 1
-})
-el.timeSett.addEventListener("input", (e) => {
-    el.timeSettDisp.innerText = e.target.value
-    timer.time0 = e.target.value
-    timer.time = e.target.value
-    timer.render() // ???
-})
+const timer = {
+    time0: 6000,
+    step: 1000,
+    time: 6000,
+    clr: {
+        green1: "hsl(120, 100%, 50%)",
+        green2: "hsl(100, 100%, 40%)",
+        orange1: "hsl(45, 100%, 45%)",
+        orange2: "hsl(30, 100%, 50%)",
+        red1: "hsl(20, 100%, 50%)",
+        red2: "hsl(00, 100%, 50%)",
+    },
+    render: function () {
+        el.time.innerText = timer.time
+        let ratio = timer.time / timer.time0
+
+        ratio < 0.25
+            ? (el.time.style.color = timer.clr.red2)
+            : ratio < 0.5
+            ? (el.time.style.color = timer.clr.orange1)
+            : ratio < 0.75
+            ? (el.time.style.color = timer.clr.green2)
+            : (el.time.style.color = timer.clr.green1)
+    },
+    timerFn: function () {
+        timer.time -= timer.step
+        timer.time ? timer.render() : game.evalInput()
+    },
+    start: function () {
+        timeInter = setInterval(timer.timerFn, timer.step)
+    },
+    reset: function () {
+        clearInterval(timeInter)
+        timer.time = timer.time0
+        timer.render()
+    },
+}
+
+const number = {
+    start: 50,
+    end: 99,
+    generate() {
+        return Math.floor(Math.random() * (this.end - this.start + 1) + this.start)
+    },
+}
+
+const ques = {
+    num1: 0,
+    num2: 0,
+    answer: 0,
+    render() {
+        // change to forEach?
+        el.num1.innerText = this.num1
+        el.num2.innerText = this.num2
+    },
+    new() {
+        // change to forEach?
+        this.num1 = number.generate()
+        this.num2 = number.generate()
+        this.answer = this.num1 + this.num2
+        this.render()
+    },
+}
+
+const lvl = {
+    current: 0,
+    render() {
+        el.lvl.innerText = this.current
+    },
+    up() {
+        this.current++
+        this.current > storage.lvl ? storage.update(this.current) : null
+        this.render()
+        ques.new()
+    },
+    reset() {
+        this.current = 0
+        this.render()
+    },
+}
+
 
 // ----- ANIMATIONS START -----
 const divAnim = {
@@ -67,7 +143,6 @@ const divAnim = {
         })
     },
 }
-divAnim.init()
 
 const autoAnims = {
     timeAnim: {
@@ -142,120 +217,13 @@ const idle = {
         setInterval(this.interFn, this.step)
     },
 }
-idle.init()
 
 // ----- ANIMATIONS END -----
 
-localStorage.getItem("highest") || localStorage.setItem("highest", 0)
-const storage = {
-    get lvl() {
-        return localStorage.getItem("highest")
-    },
-    setLevel(x) {
-        localStorage.setItem("highest", x)
-    },
-    render() {
-        el.highest.innerText = storage.lvl
-    },
-    update(newLevel) {
-        storage.setLevel(newLevel)
-        storage.render()
-    },
-    reset() {
-        storage.setLevel(0)
-        storage.render()
-    },
-}
-
-const timer = {
-    time0: 6000,
-    step: 1000,
-    time: 6000,
-    render: function () {
-        el.time.innerText = timer.time
-
-        let ratio = timer.time / timer.time0
-        let colors = ["hsl(100, 100%, 30%)", "hsl(30, 100%, 50%)", "hsl(20, 100%, 50%)", "hsl(0, 100%, 50%)"]
-        console.log(ratio)
-        ratio < 0.25
-            ? (el.time.style.color = colors[3])
-            : ratio < 0.5
-            ? (el.time.style.color = colors[1])
-            : ratio < 0.75
-            ? (el.time.style.color = colors[2])
-            : (el.time.style.color = colors[0])
-    },
-    timerFn: function () {
-        timer.time -= timer.step
-        timer.time ? timer.render() : game.evalInput()
-    },
-    start: function () {
-        timeInter = setInterval(timer.timerFn, timer.step)
-    },
-    reset: function () {
-        clearInterval(timeInter)
-        timer.time = timer.time0
-        timer.render()
-    },
-    colors: {
-        green: "#00ff00",
-        yellow: "#aaff00",
-        orange: "#ffaa00",
-        red: "#ff0000",
-    },
-}
-
-const number = {
-    start: 50,
-    end: 99,
-    generate() {
-        return Math.floor(Math.random() * (this.end - this.start + 1) + this.start)
-    },
-}
-
-const ques = {
-    num1: 0,
-    num2: 0,
-    answer: 0,
-    render() {
-        // change to forEach?
-        el.num1.innerText = this.num1
-        el.num2.innerText = this.num2
-    },
-    new() {
-        // change to forEach?
-        this.num1 = number.generate()
-        this.num2 = number.generate()
-        this.answer = this.num1 + this.num2
-        this.render()
-    },
-}
-
-const lvl = {
-    current: 0,
-    render() {
-        el.lvl.innerText = this.current
-    },
-    up() {
-        this.current++
-        this.current > storage.lvl ? storage.update(this.current) : null
-        this.render()
-        ques.new()
-    },
-    reset() {
-        this.current = 0
-        this.render()
-    },
-}
-
 const game = {
     start() {
-        el.inp.addEventListener("change", game.evalInput)
-        // prevent up-down arrows from submitting
-        el.inp.addEventListener("keydown", (e) => {
-            ;(e.key == "ArrowUp" || e.key == "ArrowDown") && e.preventDefault()
-        })
-
+        divAnim.init()
+        idle.init()
         lvl.reset()
         lvl.up()
         storage.render()
@@ -264,7 +232,6 @@ const game = {
         timer.reset()
         lvl.up()
         timer.start()
-
         // ques.new()
     },
     over(inp) {
@@ -283,5 +250,45 @@ const game = {
         el.inp.value = ""
     },
 }
+
+// EVENT LISTENERS
+{
+    // Open-close Sett Window
+    el.settsBtn.addEventListener("click", (e) => {
+        el.settsCont.classList.toggle("hide")
+        el.settsCont.classList.contains("hide") && game.start() // restart game after setts
+    })
+    // For minimum number setting
+    el.min.addEventListener("input", (e) => {
+        ;+el.max.value - +el.min.value < 50 && (el.max.value = +el.min.value + 50)
+
+        el.minDisp.innerText = +el.min.value
+        el.maxDisp.innerText = +el.max.value
+        number.start = +el.min.value
+    })
+    // For maximum number setting
+    el.max.addEventListener("input", (e) => {
+        ;+el.max.value - +el.min.value < 50 && (el.min.value = +el.max.value - 50)
+
+        el.maxDisp.innerText = +el.max.value
+        el.minDisp.innerText = +el.min.value
+
+        number.end = +el.max.value - 1
+    })
+    // For time setting
+    el.timeSett.addEventListener("input", (e) => {
+        el.timeSettDisp.innerText = e.target.value
+        timer.time0 = e.target.value
+        timer.time = e.target.value
+        timer.render() // ???
+    })
+    // starts eval when anser is submitted
+    el.inp.addEventListener("change", game.evalInput)
+    // prevent up-down arrows from submitting
+    el.inp.addEventListener("keydown", (e) => {
+        ;(e.key == "ArrowUp" || e.key == "ArrowDown") && e.preventDefault()
+    })
+}
+
 
 game.start()

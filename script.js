@@ -1,50 +1,50 @@
 var timeInter = null
 
 const el = {
-    level: document.getElementById("level"),
+    lvl: document.getElementById("lvl"),
     highest: document.getElementById("highest"),
     num1: document.getElementById("num1"),
     num2: document.getElementById("num2"),
-    input: document.getElementById("input"),
+    inp: document.getElementById("inp"),
     time: document.getElementById("time"),
 
-    settingsCont: document.getElementById("settingsCont"),
-    settingsBtn: document.getElementById("settingsBtn"),
+    settsCont: document.getElementById("settsCont"),
+    settsBtn: document.getElementById("settsBtn"),
     min: document.getElementById("min"),
-    minDisplay: document.getElementById("minDisplay"),
+    minDisp: document.getElementById("minDisp"),
     max: document.getElementById("max"),
-    maxDisplay: document.getElementById("maxDisplay"),
-    timeSetting: document.getElementById("timeSetting"),
-    timeSettingDisplay: document.getElementById("timeSettingDisplay"),
+    maxDisp: document.getElementById("maxDisp"),
+    timeSett: document.getElementById("timeSett"),
+    timeSettDisp: document.getElementById("timeSettDisp"),
 
-    levelDiv: document.getElementById("levelDiv"),
-    questionDiv: document.getElementById("questionDiv"),
+    lvlDiv: document.getElementById("lvlDiv"),
+    quesDiv: document.getElementById("quesDiv"),
     timeDiv: document.getElementById("timeDiv"),
     highestDiv: document.getElementById("highestDiv"),
 }
 
-// Open-close Setting Window
-el.settingsBtn.addEventListener("click", (e) => {
-    el.settingsCont.classList.toggle("hide")
-    el.settingsCont.classList.contains("hide") && game.start() // restart game after settings
+// Open-close Sett Window
+el.settsBtn.addEventListener("click", (e) => {
+    el.settsCont.classList.toggle("hide")
+    el.settsCont.classList.contains("hide") && game.start() // restart game after setts
 })
 el.min.addEventListener("input", (e) => {
 (+el.max.value - +el.min.value < 50) && (el.max.value = +el.min.value + 50)
 
-el.minDisplay.innerText = +el.min.value
-el.maxDisplay.innerText = +el.max.value
+el.minDisp.innerText = +el.min.value
+el.maxDisp.innerText = +el.max.value
 number.start = +el.min.value
 })
 el.max.addEventListener("input", (e) => {
   (+el.max.value - +el.min.value < 50) && (el.min.value = +el.max.value - 50)
   
-  el.maxDisplay.innerText = +el.max.value
-  el.minDisplay.innerText = +el.min.value
+  el.maxDisp.innerText = +el.max.value
+  el.minDisp.innerText = +el.min.value
   
     number.end = +el.max.value - 1
 })
-el.timeSetting.addEventListener("input", (e) => {
-    el.timeSettingDisplay.innerText = e.target.value
+el.timeSett.addEventListener("input", (e) => {
+    el.timeSettDisp.innerText = e.target.value
     timer.time0 = e.target.value
     timer.time = e.target.value
     timer.render() // ???
@@ -54,7 +54,7 @@ el.timeSetting.addEventListener("input", (e) => {
 const divAnim = {
     frames: [{ transform: "scale(1)" }, { transform: "scale(1.1)" }, { transform: "scale(1)" }],
     timing: { duration: 1000 },
-    targets: [el.levelDiv, el.questionDiv, el.timeDiv, el.highestDiv],
+    targets: [el.lvlDiv, el.quesDiv, el.timeDiv, el.highestDiv],
     init() {
         this.targets.forEach((div) => {
             div.addEventListener(
@@ -88,12 +88,12 @@ const autoAnims = {
             { transform: "rotateZ(8.5turn)" },
         ],
         timing: { duration: 3000 },
-        target: el.questionDiv.children.namedItem("sign"),
+        target: el.quesDiv.children.namedItem("sign"),
         play() {
             this.target.animate(this.frames, this.timing)
         },
     },
-    levelAnim: {
+    lvlAnim: {
         frames: [
             { transform: "rotateZ(0deg)" },
             { transform: "rotateZ(20deg)" },
@@ -102,7 +102,7 @@ const autoAnims = {
             { transform: "rotateZ(0deg)" },
         ],
         timing: { duration: 1500, iterations: 2 },
-        target: el.level,
+        target: el.lvl,
         play() {
             this.target.animate(this.frames, this.timing)
         },
@@ -131,8 +131,8 @@ const autoAnims = {
 
 const idle = {
     time: 0,
-    step: 200,
-    limit: 5 * 1000,
+    step: 1000,
+    limit: 45 * 1000,
     interFn: function () {
         // console.log("idle callback called",idle.time);
         idle.time > idle.limit && (autoAnims.playRand(), (idle.time = 0))
@@ -148,14 +148,14 @@ idle.init()
 
 localStorage.getItem("highest") || localStorage.setItem("highest", 0)
 const storage = {
-    get level() {
+    get lvl() {
         return localStorage.getItem("highest")
     },
     setLevel(x) {
         localStorage.setItem("highest", x)
     },
     render() {
-        el.highest.innerText = storage.level
+        el.highest.innerText = storage.lvl
     },
     update(newLevel) {
         storage.setLevel(newLevel)
@@ -213,7 +213,7 @@ const number = {
     },
 }
 
-const question = {
+const ques = {
     num1: 0,
     num2: 0,
     answer: 0,
@@ -231,16 +231,16 @@ const question = {
     },
 }
 
-const level = {
+const lvl = {
     current: 0,
     render() {
-        el.level.innerText = this.current
+        el.lvl.innerText = this.current
     },
     up() {
         this.current++
-        this.current > storage.level ? storage.update(this.current) : null
+        this.current > storage.lvl ? storage.update(this.current) : null
         this.render()
-        question.new()
+        ques.new()
     },
     reset() {
         this.current = 0
@@ -250,37 +250,37 @@ const level = {
 
 const game = {
     start() {
-        el.input.addEventListener("change", game.evalInput)
+        el.inp.addEventListener("change", game.evalInput)
         // prevent up-down arrows from submitting
-        el.input.addEventListener("keydown", (e) => {
+        el.inp.addEventListener("keydown", (e) => {
             ;(e.key == "ArrowUp" || e.key == "ArrowDown") && e.preventDefault()
         })
 
-        level.reset()
-        level.up()
+        lvl.reset()
+        lvl.up()
         storage.render()
     },
-    levelUp() {
+    lvlUp() {
         timer.reset()
-        level.up()
+        lvl.up()
         timer.start()
 
-        // question.new()
+        // ques.new()
     },
-    over(input) {
-        let { num1, num2, answer } = question
-        console.log(`GAME OVER\n${num1} ${num2} ${answer}\n${input}`) // in dev
+    over(inp) {
+        let { num1, num2, answer } = ques
+        console.log(`GAME OVER\n${num1} ${num2} ${answer}\n${inp}`) // in dev
         timer.reset() // needed?
-        level.reset()
-        level.up()
-        // question.new()
+        lvl.reset()
+        lvl.up()
+        // ques.new()
     },
     evalInput(e) {
         console.log("'listenInput' is listened")
         // timer.reset()
-        let input = el.input.value
-        input == question.answer ? game.levelUp() : game.over(input)
-        el.input.value = ""
+        let inp = el.inp.value
+        inp == ques.answer ? game.lvlUp() : game.over(inp)
+        el.inp.value = ""
     },
 }
 

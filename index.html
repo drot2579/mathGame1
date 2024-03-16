@@ -1,110 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Math Game1</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="style.css" />
     <script type="module" src="script.js"></script>
-  </head>
+</head>
 
-  <body>
+<body>
     <nav>
-      <h1>Basic Math Game</h1>
-      <button id="settsBtn">Settings</button>
+        <h1>Basic Math Game</h1>
+        <button id="tripBar">
+            <div class="bar bar1"></div>
+            <div class="bar bar2"></div>
+            <div class="bar bar3"></div>
+        </button>
     </nav>
 
     <main>
-      <div id="lvlDiv" class="game lvl">
-        <!-- <span>Level</span> -->
-        <p id="lvl">0</p>
-      </div>
-      
-      <div id="quesDiv" class="game">
-        <p id="num1">00</p>
-        <p id="sign">+</p>
-        <p id="num2">00</p>
-      </div>
 
-      <div id="inpDiv" class="game">
-        <input type="number" id="inp" autofocus />
-      </div>
 
-      <div id="timeDiv" class="game">
-        <p id="time">6000</p>
-        <span>miliseconds</span>
-      </div>
-
-      <div id="highestDiv" class="game">
-        <span>Highest Level</span>
-        <p id="highest">0</p>
-      </div>
-
-      <div id="settsCont" class="setts hide">
-        <h1>Setts</h1>
-
-        <div class="maxMinDiv">
-          <label for="min">Minimum Number</label>
-          <div>
-            <input
-              type="range"
-              id="min"
-              min="50"
-              max="950"
-              step="50"
-              value="50"
-            />
-            <span id="minDisp">50</span>
-          </div>
-
-          <label for="max">Maximum Number</label>
-          <div>
-            <input
-              type="range"
-              id="max"
-              min="100"
-              max="1000"
-              step="50"
-              value="50"
-            />
-            <span id="maxDisp">100</span>
-          </div>
+        <!-- ----- GAME ----- -->
+        <div class="lvlDiv">
+            <h2 id="lvl">0</h2>
         </div>
 
-        <!-- ----- SETTINGS ----- -->
-        <div class="timeSettDiv">
-          <label for="timeSett">Time Limit</label>
-          <div>
-            <input
-              type="range"
-              id="timeSett"
-              min="1000"
-              max="10000"
-              step="1000"
-              value="6000"
-            />
-            <span id="timeSettDisp">6000</span>
-          </div>
+        <div id="quesDiv" class="quesDiv">
+            <h1 id="num1">00</h1>
+            <h1 id="sign">+</h1>
+            <h1 id="num2">00</h1>
         </div>
-      </div>
+
+        <div class="inpDiv">
+            <input id="inp" type="number" autofocus />
+        </div>
+
+        <div class="timeDiv">
+            <h2 id="time">6000</h2>
+            <span>miliseconds</span>
+        </div>
+
+        <div class="highestDiv">
+            <span>Highest Level</span>
+            <h2 id="highest">0</h2>
+        </div>
     </main>
 
-    <section class="pops">
-      <div id="hiPop" class="pop">
-        <h1>Title</h1>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam ipsam
-          nesciunt dignissimos. Neque temporibus natus perspiciatis doloribus
-          architecto delectus aliquam illo quos, labore iusto illum dolorum,
-          atque cumque ea corrupti?
-        </p>
-        <button>Start</button>
-      </div>
-    </section>
+        <!-- ----- SETTINGS ----- -->
+            <section id="settsCont" class="setts hide">
+                
+            <h1>Settings</h1>
+    
+            <div class="maxMinDiv">
+    
+                <div>
+                    <label for="min">Minimum Number</label>
+                    <p id="minDisp">50</p>
+                    <input type="range" id="min" min="50" max="950" step="50" value="50" />
+                </div>
+    
+                <div>
+                    <label for="max">Maximum Number</label>
+                    <p id="maxDisp">100</p>
+                    <input type="range" id="max" min="100" max="1000" step="50" value="50" />
+                </div>
+    
+            </div>
+    
+            <div class="timeSettDiv">
+                <div>
+                    <label for="timeSett">Time Limit</label>
+                    <p id="timeSettDisp">6000</p>
+                    <input type="range" id="timeSett" min="1000" max="10000" step="1000" value="6000" />
+                </div>
+            </div>
 
-    <footer>
-      <p>- Drot -</p>
-    </footer>
-  </body>
+        </section>
+
+
+
+
+
+
+
+
+</body>
+
 </html>

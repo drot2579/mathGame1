@@ -1,0 +1,95 @@
+
+
+
+
+
+function hideHiddens() {
+    document.querySelectorAll(".hide").forEach((el) => {
+        el.style.display = "none"
+        console.log(el);
+    })
+}
+hideHiddens()
+
+
+
+.opZero {
+    opacity: 0 !important;
+}
+.hideZero {
+    display: none !important;
+    opacity: 0 !important;
+    
+}
+
+
+
+    el.tripBar.addEventListener("click", (e) => {
+        el.settsCont.classList.toggle("hide") /* revert */
+        document.querySelectorAll(".bar")
+            .forEach((bar) => {
+                bar.classList.toggle("activeBar")
+            })
+    })
+
+#tripBar .bar {
+    background-color: whitesmoke;
+    width: 5vh;
+    height: 0.8vh;
+    transition: 200ms; /* revert */
+}
+
+#tripBar .bar.activeBar {
+    background-color: hsl(60, 100%, 50%);
+}
+
+#tripBar .bar1.activeBar {
+    transform: translateX(0%) translateY(180%) rotateZ(120deg);
+}
+
+#tripBar .bar3.activeBar {
+    transform: translateX(-0%) translateY(-180%) rotateZ(-120deg);
+}
+
+#tripBar .bar2.activeBar {
+    transform: scaleX(0);
+}
+
+
+
+/* animation: name duration timing-function delay iteration-count direction fill-mode; */
+    /* animation-direction: alternate-reverse; */
+    /* animation-fill-mode: ; */
+
+
+nav #tripBar {
+    background-color: #000;
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.25rem;
+
+    position: absolute;
+    right: 0.5rem;
+}
+
+nav #tripBar .bar {
+    height: 0.5rem;
+    width: 2.5rem;
+    background-color: whitesmoke;
+
+    transition: 500ms;
+}
+
+nav .bar1.activeBar {
+    transform:
+        rotateZ(48deg) translateY(110%) translateX(10%);
+}
+
+nav .bar3.activeBar {
+    transform:
+        rotateZ(-48deg) translateY(-110%) translateX(10%);
+}
+
+nav .bar2.activeBar {
+    transform: scale(0);
+}

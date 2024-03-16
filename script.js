@@ -9,7 +9,7 @@ const el = {
     time: document.getElementById("time"),
 
     settsCont: document.getElementById("settsCont"),
-    settsBtn: document.getElementById("settsBtn"),
+    tripBar: document.getElementById("tripBar"),
     min: document.getElementById("min"),
     minDisp: document.getElementById("minDisp"),
     max: document.getElementById("max"),
@@ -17,11 +17,13 @@ const el = {
     timeSett: document.getElementById("timeSett"),
     timeSettDisp: document.getElementById("timeSettDisp"),
 
-    lvlDiv: document.getElementById("lvlDiv"),
-    quesDiv: document.getElementById("quesDiv"),
-    timeDiv: document.getElementById("timeDiv"),
-    highestDiv: document.getElementById("highestDiv"),
+    lvlDiv: document.querySelector(".lvlDiv"),
+    quesDiv: document.querySelector(".quesDiv"),
+    timeDiv: document.querySelector(".timeDiv"),
+    highestDiv: document.querySelector(".highestDiv"),
 }
+
+
 
 localStorage.getItem("highest") || localStorage.setItem("highest", 0)
 const storage = {
@@ -63,10 +65,10 @@ const timer = {
         ratio < 0.25
             ? (el.time.style.color = timer.clr.red2)
             : ratio < 0.5
-            ? (el.time.style.color = timer.clr.orange1)
-            : ratio < 0.75
-            ? (el.time.style.color = timer.clr.green2)
-            : (el.time.style.color = timer.clr.green1)
+                ? (el.time.style.color = timer.clr.orange1)
+                : ratio < 0.75
+                    ? (el.time.style.color = timer.clr.green2)
+                    : (el.time.style.color = timer.clr.green1)
     },
     timerFn: function () {
         timer.time -= timer.step
@@ -128,8 +130,13 @@ const lvl = {
 
 // ----- ANIMATIONS START -----
 const divAnim = {
-    frames: [{ transform: "scale(1)" }, { transform: "scale(1.1)" }, { transform: "scale(1)" }],
-    timing: { duration: 1000 },
+    frames: [
+        { transform: "scale(1)" },
+        { transform: "scale(1.05)" },
+        { transform: "scale(1.05)" },
+        { transform: "scale(1)" }
+    ],
+    timing: { duration: 400 },
     targets: [el.lvlDiv, el.quesDiv, el.timeDiv, el.highestDiv],
     init() {
         this.targets.forEach((div) => {
@@ -198,16 +205,60 @@ const autoAnims = {
     playRand() {
         let keys = Object.keys(this)
         let num = Math.floor(Math.random() * (keys.length - 1))
-        // console.log(keys);
-        // console.log(num);
         this[keys[num]].play()
+    },
+}
+
+const tripAnim = {
+    frames0: [
+        { backgroundColor: "whitesmoke", transform: "translateX(0%) translateY(0) rotateZ(0)" },
+        { backgroundColor: "yellow", transform: "translateX(0%) translateY(180%) rotateZ(130deg)" },
+    ],
+    frames1: [
+        { backgroundColor: "whitesmoke", transform: "scaleX(1)" },
+        { backgroundColor: "yellow", transform: "scaleX(0)" },
+    ],
+    frames2: [
+        { backgroundColor: "whitesmoke", transform: "translateX(0%) translateY(0) rotateZ(0)" },
+        { backgroundColor: "yellow", transform: "translateX(0%) translateY(-180%) rotateZ(-130deg)" },
+    ],
+    timing: {
+        duration: 300,
+        fill: "forwards",
+        direction: "normal",
+        easing: "ease"
+    },
+    targets: el.tripBar.children,
+    play() {
+        tripAnim.targets.item(0).animate(tripAnim.frames0, tripAnim.timing)
+        tripAnim.targets.item(1).animate(tripAnim.frames1, tripAnim.timing)
+        tripAnim.targets.item(2).animate(tripAnim.frames2, tripAnim.timing)
+        tripAnim.timing.direction == "normal" ? tripAnim.timing.direction = "reverse" : tripAnim.timing.direction = "normal";
+
+    },
+}
+const settsContAnim = {
+    frames: [
+        { opacity: 0, display: "none" },
+        { opacity: 1, display: "flex" },
+    ],
+    timing: {
+        duration: 300,
+        fill: "forwards",
+        direction: "normal",
+        easing: "ease"
+    },
+    target: el.settsCont,
+    play() {
+        el.settsCont.animate(settsContAnim.frames, settsContAnim.timing)
+        settsContAnim.timing.direction == "normal" ? settsContAnim.timing.direction = "reverse" : settsContAnim.timing.direction = "normal";
     },
 }
 
 const idle = {
     time: 0,
     step: 1000,
-    limit: 45 * 1000,
+    limit: 10 * 1000,
     interFn: function () {
         // console.log("idle callback called",idle.time);
         idle.time > idle.limit && (autoAnims.playRand(), (idle.time = 0))
@@ -219,6 +270,8 @@ const idle = {
 }
 
 // ----- ANIMATIONS END -----
+
+
 
 const game = {
     start() {
@@ -253,14 +306,19 @@ const game = {
 
 // EVENT LISTENERS
 {
-    // Open-close Sett Window
-    el.settsBtn.addEventListener("click", (e) => {
-        el.settsCont.classList.toggle("hide")
-        el.settsCont.classList.contains("hide") && game.start() // restart game after setts
+
+
+
+    el.tripBar.addEventListener("click", (e) => {
+        tripAnim.play()
+        settsContAnim.play()
     })
+
+
+
     // For minimum number setting
     el.min.addEventListener("input", (e) => {
-        ;+el.max.value - +el.min.value < 50 && (el.max.value = +el.min.value + 50)
+        ; +el.max.value - +el.min.value < 50 && (el.max.value = +el.min.value + 50)
 
         el.minDisp.innerText = +el.min.value
         el.maxDisp.innerText = +el.max.value
@@ -268,7 +326,7 @@ const game = {
     })
     // For maximum number setting
     el.max.addEventListener("input", (e) => {
-        ;+el.max.value - +el.min.value < 50 && (el.min.value = +el.max.value - 50)
+        ; +el.max.value - +el.min.value < 50 && (el.min.value = +el.max.value - 50)
 
         el.maxDisp.innerText = +el.max.value
         el.minDisp.innerText = +el.min.value
@@ -286,9 +344,26 @@ const game = {
     el.inp.addEventListener("change", game.evalInput)
     // prevent up-down arrows from submitting
     el.inp.addEventListener("keydown", (e) => {
-        ;(e.key == "ArrowUp" || e.key == "ArrowDown") && e.preventDefault()
+        ; (e.key == "ArrowUp" || e.key == "ArrowDown") && e.preventDefault()
     })
 }
 
 
 game.start()
+
+
+
+
+/* function adTestBtn(listenerFn) {
+    let el = document.createElement("button")
+    el.innerText = "test"
+    el.style.padding = "1rem 2rem"
+
+    el.addEventListener("click", listenerFn)
+
+    document.body.append(el)
+
+}
+
+adTestBtn(tripAnim.play)
+*/

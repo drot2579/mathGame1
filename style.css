@@ -154,12 +154,12 @@ nav #tripBar {
 }
 
 /* ///////////////////////////// SETTINGS /////////////////////////////////// */
-#settsCont {
+.setts {
     position: absolute;
     width: 88%;
-    height: 88%;
+    height: 80%;
     top: 8%;
-    left: 6%; 
+    left: 8%; 
 
     background-color: var(--yellow2);
     color: black;

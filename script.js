@@ -156,6 +156,8 @@ const divAnim = {
         })
     },
 }
+let res = document.querySelectorAll("main>div")
+console.log(res);
 
 const autoAnims = {
     timeAnim: {

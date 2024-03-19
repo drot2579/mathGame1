@@ -1,6 +1,22 @@
 
 
-
+const settsContAnim = {
+    frames: [
+        { opacity: 0, display: "none" },
+        { opacity: 1, display: "flex" },
+    ],
+    timing: {
+        duration: 300,
+        fill: "forwards",
+        direction: "normal",
+        easing: "ease"
+    },
+    target: el.settsCont,
+    play() {
+        el.settsCont.animate(settsContAnim.frames, settsContAnim.timing)
+        settsContAnim.timing.direction == "normal" ? settsContAnim.timing.direction = "reverse" : settsContAnim.timing.direction = "normal";
+    },
+}
 
 
 function hideHiddens() {

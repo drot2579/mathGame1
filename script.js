@@ -25,24 +25,24 @@ const el = {
 
 
 
-localStorage.getItem("highest") || localStorage.setItem("highest", 0)
-const storage = {
+const highest = {
+    init: localStorage.getItem("highest") || localStorage.setItem("highest", 0),
     get lvl() {
         return localStorage.getItem("highest")
     },
-    setLevel(x) {
+    setLvl(x) {
         localStorage.setItem("highest", x)
     },
     render() {
-        el.highest.innerText = storage.lvl
+        el.highest.innerText = highest.lvl
     },
     update(newLevel) {
-        storage.setLevel(newLevel)
-        storage.render()
+        highest.setLvl(newLevel)
+        highest.render()
     },
     reset() {
-        storage.setLevel(0)
-        storage.render()
+        highest.setLvl(0)
+        highest.render()
     },
 }
 
@@ -117,7 +117,7 @@ const lvl = {
     },
     up() {
         this.current++
-        this.current > storage.lvl ? storage.update(this.current) : null
+        this.current > highest.lvl ? highest.update(this.current) : null
         this.render()
         ques.new()
     },
@@ -129,6 +129,12 @@ const lvl = {
 
 
 // ----- ANIMATIONS START -----
+
+function reverseDirection(anim) {
+    return anim.timing.direction == "normal" ? anim.timing.direction = "reverse" : anim.timing.direction = "normal";
+}
+
+
 const divAnim = {
     frames: [
         { transform: "scale(1)" },
@@ -136,7 +142,7 @@ const divAnim = {
         { transform: "scale(1.05)" },
         { transform: "scale(1)" }
     ],
-    timing: { duration: 400 },
+    timing: { duration: 600 },
     targets: [el.lvlDiv, el.quesDiv, el.timeDiv, el.highestDiv],
     init() {
         this.targets.forEach((div) => {
@@ -209,17 +215,19 @@ const autoAnims = {
     },
 }
 
+
+
 const tripAnim = {
     frames0: [
-        { backgroundColor: "whitesmoke", transform: "translateX(0%) translateY(0) rotateZ(0)" },
+        { transform: "translateX(0%) translateY(0) rotateZ(0)" },
         { backgroundColor: "yellow", transform: "translateX(0%) translateY(180%) rotateZ(130deg)" },
     ],
     frames1: [
-        { backgroundColor: "whitesmoke", transform: "scaleX(1)" },
+        { transform: "scaleX(1)" },
         { backgroundColor: "yellow", transform: "scaleX(0)" },
     ],
     frames2: [
-        { backgroundColor: "whitesmoke", transform: "translateX(0%) translateY(0) rotateZ(0)" },
+        { transform: "translateX(0%) translateY(0) rotateZ(0)" },
         { backgroundColor: "yellow", transform: "translateX(0%) translateY(-180%) rotateZ(-130deg)" },
     ],
     timing: {
@@ -230,39 +238,39 @@ const tripAnim = {
     },
     targets: el.tripBar.children,
     play() {
-        tripAnim.targets.item(0).animate(tripAnim.frames0, tripAnim.timing)
-        tripAnim.targets.item(1).animate(tripAnim.frames1, tripAnim.timing)
-        tripAnim.targets.item(2).animate(tripAnim.frames2, tripAnim.timing)
-        tripAnim.timing.direction == "normal" ? tripAnim.timing.direction = "reverse" : tripAnim.timing.direction = "normal";
+        [0, 1, 2].forEach((n) => this.targets.item(n).animate(this["frames" + n], this.timing))
+        reverseDirection(this)
 
     },
 }
+
 const settsContAnim = {
     frames: [
-        { opacity: 0, display: "none" },
-        { opacity: 1, display: "flex" },
+        { transform: "translateY(1000px) skewY(70deg)", display: "none" },
+        { transform: "translateY(-50px) skewY(2deg)", },
+        { transform: "translateY(0px)", display: "flex" },
     ],
     timing: {
         duration: 300,
         fill: "forwards",
         direction: "normal",
-        easing: "ease"
+        easing: "linear"
     },
     target: el.settsCont,
     play() {
         el.settsCont.animate(settsContAnim.frames, settsContAnim.timing)
-        settsContAnim.timing.direction == "normal" ? settsContAnim.timing.direction = "reverse" : settsContAnim.timing.direction = "normal";
+        reverseDirection(this)
     },
 }
 
-const idle = {
-    time: 0,
+const idleTimer = {
+    value: 0,
     step: 1000,
     limit: 10 * 1000,
     interFn: function () {
         // console.log("idle callback called",idle.time);
-        idle.time > idle.limit && (autoAnims.playRand(), (idle.time = 0))
-        timeInter ? (idle.time = 0) : (idle.time += idle.step)
+        idleTimer.value > idleTimer.limit && (autoAnims.playRand(), (idleTimer.value = 0))
+        timeInter ? (idleTimer.value = 0) : (idleTimer.value += idleTimer.step)
     },
     init: function () {
         setInterval(this.interFn, this.step)
@@ -276,10 +284,10 @@ const idle = {
 const game = {
     start() {
         divAnim.init()
-        idle.init()
+        idleTimer.init()
         lvl.reset()
         lvl.up()
-        storage.render()
+        highest.render()
     },
     lvlUp() {
         timer.reset()
@@ -350,6 +358,10 @@ const game = {
 
 
 game.start()
+
+
+
+
 
 
 

@@ -32,6 +32,22 @@ Comic Sans MS    (cursive)
 
 
 
+
+
+/* function adTestBtn(listenerFn) {
+    let el = document.createElement("button")
+    el.innerText = "test"
+    el.style.padding = "1rem 2rem"
+
+    el.addEventListener("click", listenerFn)
+
+    document.body.append(el)
+
+}
+
+adTestBtn(tripAnim.play)
+*/
+
 const settsContAnim = {
     frames: [
         { opacity: 0, display: "none" },

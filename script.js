@@ -21,9 +21,10 @@ const el = {
     quesDiv: document.querySelector(".quesDiv"),
     timeDiv: document.querySelector(".timeDiv"),
     highestDiv: document.querySelector(".highestDiv"),
+
+    navh1: document.querySelector("nav>h1"),
+
 }
-
-
 
 const highest = {
     init: localStorage.getItem("highest") || localStorage.setItem("highest", 0),
@@ -130,34 +131,80 @@ const lvl = {
 
 // ----- ANIMATIONS START -----
 
+
+/* ---------- ----------> New Start <---------- ---------- */
+
+const policeAnim = new Animation(new KeyframeEffect(el.navh1,
+    [{ backgroundColor: "blue" },
+    { backgroundColor: "yellow" },
+    { backgroundColor: "red" }],
+    { duration: 500, iterations: Infinity, }
+))
+const textShadowAnim = new Animation(new KeyframeEffect(el.navh1,
+    [
+        { textShadow: "none" },
+        { textShadow: "0 0 10px aqua" },
+        { textShadow: "none" },
+        { textShadow: "0 0 10px yellow" },
+        { textShadow: "none" },
+        { textShadow: "0 0 10px red" },
+        { textShadow: "none" },
+    ],
+    { duration: 12000, iterations: Infinity, }
+)).play()
+
+function createAnim(frames, timing, target) {
+    return new Animation(new KeyframeEffect(target, frames, timing))
+}
+
+const vibration = createAnim(
+    [
+        { transform: "translate(+2px,+2px)" },
+        { transform: "translate(-2px,-2px)" },
+        { transform: "translate(+2px,+2px)" },
+    ], { duration: 50, iterations: Infinity }, el.highestDiv)
+
+function vibrateElement(el, axis = "x", duration = 1000, move = "2px", freq = "10") {
+    return createAnim(
+        [{ transform: `translate + ${axis} + (+${move})` },
+        { transform: `translate + ${axis} + (-${move})` },
+        { transform: `translate + ${axis} + (+${move})` },],
+        { duration: 1000 / freq, iterations: freq * duration / 1000 }, el).play()
+}
+
+/* ---------- ----------> New End <---------- ---------- */
+
+
 function reverseDirection(anim) {
     return anim.timing.direction == "normal" ? anim.timing.direction = "reverse" : anim.timing.direction = "normal";
 }
+
 const corrrectAnim = {
-    frames: [{backgroundColor: "hsl(70, 100%, 70%)",offset:0.5}],
-    timing: {duration:300},
+    frames: [{ backgroundColor: "hsl(70, 100%, 70%)", offset: 0.5 }],
+    timing: { duration: 300 },
     targets: [document.body],
-    play(){
-        this.targets.forEach((t) => t.animate(this.frames,this.timing))
+    play() {
+        this.targets.forEach((t) => t.animate(this.frames, this.timing))
     }
 }
+
 const wrongAnim = {
-    frames: [{backgroundColor: "hsl(0, 100%, 55%)",offset:0.5}],
-    timing: {duration:1000},
+    frames: [{ backgroundColor: "hsl(0, 100%, 55%)", offset: 0.5 }],
+    timing: { duration: 1000 },
     targets: [document.body],
-    play(){
-        this.targets.forEach((t) => t.animate(this.frames,this.timing))
+    play() {
+        this.targets.forEach((t) => t.animate(this.frames, this.timing))
     }
 }
 
 const divAnim = {
     frames: [
-        { transform: "scale(1)" },
-        { transform: "scale(1.05)" },
-        { transform: "scale(1.05)" },
-        { transform: "scale(1)" }
+        { scale: 1 },
+        { scale: "1.1 0.9" },
+        { scale: "1.1 0.9" },
+        { scale: 1 },
     ],
-    timing: { duration: 600 },
+    timing: { duration: 800 },
     targets: [el.lvlDiv, el.quesDiv, el.timeDiv, el.highestDiv],
     init() {
         this.targets.forEach((div) => {
@@ -230,23 +277,21 @@ const autoAnims = {
     },
 }
 
-
-
 const tripAnim = {
     frames0: [
         { transform: "translateX(0%) translateY(0) rotateZ(0)" },
-        { backgroundColor: "yellow", transform: "translateX(0%) translateY(180%) rotateZ(130deg)" },
-    ],
-    frames1: [
-        { transform: "scaleX(1)" },
-        { backgroundColor: "yellow", transform: "scaleX(0)" },
+        { transform: "translateX(0%) translateY(+150%) rotateZ(+130deg)", backgroundColor: "yellow", },
     ],
     frames2: [
         { transform: "translateX(0%) translateY(0) rotateZ(0)" },
-        { backgroundColor: "yellow", transform: "translateX(0%) translateY(-180%) rotateZ(-130deg)" },
+        { transform: "translateX(0%) translateY(-150%) rotateZ(-130deg)", backgroundColor: "yellow", },
+    ],
+    frames1: [
+        { transform: "scaleX(1)" },
+        { transform: "scaleX(0)", backgroundColor: "yellow", },
     ],
     timing: {
-        duration: 300,
+        duration: 200,
         fill: "forwards",
         direction: "normal",
         easing: "ease"
@@ -326,16 +371,11 @@ const game = {
 
 // EVENT LISTENERS
 {
-
-
-
+    // settings button and popup
     el.tripBar.addEventListener("click", (e) => {
         tripAnim.play()
         settsContAnim.play()
     })
-
-
-
     // For minimum number setting
     el.min.addEventListener("input", (e) => {
         ; +el.max.value - +el.min.value < 50 && (el.max.value = +el.min.value + 50)
@@ -373,21 +413,3 @@ game.start()
 
 
 
-
-
-
-
-
-/* function adTestBtn(listenerFn) {
-    let el = document.createElement("button")
-    el.innerText = "test"
-    el.style.padding = "1rem 2rem"
-
-    el.addEventListener("click", listenerFn)
-
-    document.body.append(el)
-
-}
-
-adTestBtn(tripAnim.play)
-*/

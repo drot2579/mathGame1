@@ -133,7 +133,22 @@ const lvl = {
 function reverseDirection(anim) {
     return anim.timing.direction == "normal" ? anim.timing.direction = "reverse" : anim.timing.direction = "normal";
 }
-
+const corrrectAnim = {
+    frames: [{backgroundColor: "hsl(70, 100%, 70%)",offset:0.5}],
+    timing: {duration:300},
+    targets: [document.body],
+    play(){
+        this.targets.forEach((t) => t.animate(this.frames,this.timing))
+    }
+}
+const wrongAnim = {
+    frames: [{backgroundColor: "hsl(0, 100%, 55%)",offset:0.5}],
+    timing: {duration:1000},
+    targets: [document.body],
+    play(){
+        this.targets.forEach((t) => t.animate(this.frames,this.timing))
+    }
+}
 
 const divAnim = {
     frames: [
@@ -156,8 +171,6 @@ const divAnim = {
         })
     },
 }
-let res = document.querySelectorAll("main>div")
-console.log(res);
 
 const autoAnims = {
     timeAnim: {
@@ -260,7 +273,7 @@ const settsContAnim = {
     },
     target: el.settsCont,
     play() {
-        el.settsCont.animate(settsContAnim.frames, settsContAnim.timing)
+        this.target.animate(settsContAnim.frames, settsContAnim.timing)
         reverseDirection(this)
     },
 }
@@ -292,24 +305,21 @@ const game = {
         highest.render()
     },
     lvlUp() {
+        corrrectAnim.play()
         timer.reset()
         lvl.up()
         timer.start()
-        // ques.new()
     },
     over(inp) {
-        let { num1, num2, answer } = ques
+        wrongAnim.play()
+        let { num1, num2, answer } = ques // in dev
         console.log(`GAME OVER\n${num1} ${num2} ${answer}\n${inp}`) // in dev
         timer.reset() // needed?
         lvl.reset()
         lvl.up()
-        // ques.new()
     },
     evalInput(e) {
-        console.log("'listenInput' is listened")
-        // timer.reset()
-        let inp = el.inp.value
-        inp == ques.answer ? game.lvlUp() : game.over(inp)
+        el.inp.value == ques.answer ? game.lvlUp() : game.over(el.inp.value)
         el.inp.value = ""
     },
 }

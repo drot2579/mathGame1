@@ -21,10 +21,12 @@ html {
     text-align: center;
     vertical-align: middle;
         background-color: hsl(55, 100%, 50%);
-}
-
-body {
-    background-color: var(--yellow1);
+    }
+    
+    body {
+        /* background-color: hsl(70, 100%, 70%); */
+        /* background-color: hsl(0, 100%, 55%); */
+        background-color: var(--yellow1);
     height: 100vh;
     position: relative;
     overflow: hidden;
@@ -78,6 +80,10 @@ main>div {
     align-items: center;
 }
 
+main.inpDiv {
+    
+}
+
 main #lvl {
     font-family: "Courier New", Courier, monospace;
     color: darkorange;
@@ -113,12 +119,13 @@ main #highest {
 .inpDiv #inp {
     font-size: 1.75rem;
     width: 50%;
+    margin:0.5rem 0;
     border-radius: 1rem;
     border: none;
     text-align: center;
     background-color: white;
     color: blue;
-    font-family: cursive;
+    font-family: "Brush Script MT", "Comic Sans MS", "Gill Sans", "sans" ;
 }
 
 #inp:focus {
@@ -135,8 +142,8 @@ input::-webkit-inner-spin-button {
 /* ///////////////////////////// TRIPBAR //////////////////////////////////// */
 nav #tripBar {
     height: 4.5vh;
-    width: 5.5vh;
-    padding: 0.2rem;
+    width: 6vh;
+    padding: 0.15rem 0.1rem;
     background-color: black;
     display: flex;
     flex-direction: column;

@@ -154,7 +154,7 @@ nav #tripBar {
 
 /* ///////////////////////////// SETTINGS /////////////////////////////////// */
 .setts {
-    position: absolute;
+    position: fixed;
     width: 88%;
     height: 80%;
     top: 8%;

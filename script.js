@@ -375,6 +375,7 @@ const game = {
     el.tripBar.addEventListener("click", (e) => {
         tripAnim.play()
         settsContAnim.play()
+        el.settsCont.classList.toggle("hide")
     })
     // For minimum number setting
     el.min.addEventListener("input", (e) => {

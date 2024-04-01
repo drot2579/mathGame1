@@ -93,7 +93,7 @@ const number = {
     },
 }
 
-const ques = {
+const ques = {  
     num1: 0,
     num2: 0,
     answer: 0,
@@ -146,7 +146,7 @@ const textShadowAnim = new Animation(new KeyframeEffect(el.navh1,
         { textShadow: "0 0 10px aqua" },
         { textShadow: "none" },
         { textShadow: "0 0 10px yellow" },
-        { textShadow: "none" },
+        { textShadow: "none" }, 
         { textShadow: "0 0 10px red" },
         { textShadow: "none" },
     ],
@@ -411,6 +411,3 @@ const game = {
 
 
 game.start()
-
-
-

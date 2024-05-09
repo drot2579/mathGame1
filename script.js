@@ -1,49 +1,45 @@
 var timeInter = null
 
-const el = {
-    lvl: document.getElementById("lvl"),
-    highest: document.getElementById("highest"),
-    num1: document.getElementById("num1"),
-    num2: document.getElementById("num2"),
-    inp: document.getElementById("inp"),
-    time: document.getElementById("time"),
+const ids = ["lvl",
+    "highscore",
+    "num1",
+    "num2",
+    "answerInput",
+    "time",
+    "settingsContainer",
+    "tripBar",
+    "min",
+    "minDisp",
+    "max",
+    "maxDisp",
+    "timeSett",
+    "timeSettDisp",
+    "lvlDiv",
+    "questionDiv",
+    "timeDiv",
+    "highscoreDiv",
+    "navTitle",]
 
-    settsCont: document.getElementById("settsCont"),
-    tripBar: document.getElementById("tripBar"),
-    min: document.getElementById("min"),
-    minDisp: document.getElementById("minDisp"),
-    max: document.getElementById("max"),
-    maxDisp: document.getElementById("maxDisp"),
-    timeSett: document.getElementById("timeSett"),
-    timeSettDisp: document.getElementById("timeSettDisp"),
+const el = Object.fromEntries(ids.map((id) => [id, document.getElementById(id)]))
 
-    lvlDiv: document.querySelector(".lvlDiv"),
-    quesDiv: document.querySelector(".quesDiv"),
-    timeDiv: document.querySelector(".timeDiv"),
-    highestDiv: document.querySelector(".highestDiv"),
-
-    navh1: document.querySelector("nav>h1"),
-
-}
-
-const highest = {
-    init: localStorage.getItem("highest") || localStorage.setItem("highest", 0),
+const highscore = {
+    init: localStorage.getItem("highscore") || localStorage.setItem("highscore", 0),
     get lvl() {
-        return localStorage.getItem("highest")
+        return localStorage.getItem("highscore")
     },
     setLvl(x) {
-        localStorage.setItem("highest", x)
+        localStorage.setItem("highscore", x)
     },
     render() {
-        el.highest.innerText = highest.lvl
+        el.highscore.innerText = highscore.lvl
     },
     update(newLevel) {
-        highest.setLvl(newLevel)
-        highest.render()
+        highscore.setLvl(newLevel)
+        highscore.render()
     },
     reset() {
-        highest.setLvl(0)
-        highest.render()
+        highscore.setLvl(0)
+        highscore.render()
     },
 }
 
@@ -93,7 +89,7 @@ const number = {
     },
 }
 
-const ques = {  
+const ques = {
     num1: 0,
     num2: 0,
     answer: 0,
@@ -118,7 +114,7 @@ const lvl = {
     },
     up() {
         this.current++
-        this.current > highest.lvl ? highest.update(this.current) : null
+        this.current > highscore.lvl ? highscore.update(this.current) : null
         this.render()
         ques.new()
     },
@@ -146,7 +142,7 @@ const textShadowAnim = new Animation(new KeyframeEffect(el.navh1,
         { textShadow: "0 0 10px aqua" },
         { textShadow: "none" },
         { textShadow: "0 0 10px yellow" },
-        { textShadow: "none" }, 
+        { textShadow: "none" },
         { textShadow: "0 0 10px red" },
         { textShadow: "none" },
     ],
@@ -162,7 +158,7 @@ const vibration = createAnim(
         { transform: "translate(+2px,+2px)" },
         { transform: "translate(-2px,-2px)" },
         { transform: "translate(+2px,+2px)" },
-    ], { duration: 50, iterations: Infinity }, el.highestDiv)
+    ], { duration: 50, iterations: Infinity }, el.highscoreDiv)
 
 function vibrateElement(el, axis = "x", duration = 1000, move = "2px", freq = "10") {
     return createAnim(
@@ -205,7 +201,7 @@ const divAnim = {
         { scale: 1 },
     ],
     timing: { duration: 800 },
-    targets: [el.lvlDiv, el.quesDiv, el.timeDiv, el.highestDiv],
+    targets: [el.lvlDiv, el.questionDiv, el.timeDiv, el.highscoreDiv],
     init() {
         this.targets.forEach((div) => {
             div.addEventListener(
@@ -238,7 +234,7 @@ const autoAnims = {
             { transform: "rotateZ(8.5turn)" },
         ],
         timing: { duration: 3000 },
-        target: el.quesDiv.children.namedItem("sign"),
+        target: el.questionDiv.children.namedItem("plusSign"),
         play() {
             this.target.animate(this.frames, this.timing)
         },
@@ -265,7 +261,7 @@ const autoAnims = {
             { transform: "translateY(0rem)" },
         ],
         timing: { duration: 400, iterations: 3 },
-        target: el.highest.previousElementSibling,
+        target: el.highscore.previousElementSibling,
         play() {
             this.target.animate(this.frames, this.timing)
         },
@@ -304,7 +300,7 @@ const tripAnim = {
     },
 }
 
-const settsContAnim = {
+const settingsContainerAnim = {
     frames: [
         { transform: "translateY(1000px) skewY(70deg)", display: "none" },
         { transform: "translateY(-50px) skewY(2deg)", },
@@ -316,9 +312,9 @@ const settsContAnim = {
         direction: "normal",
         easing: "linear"
     },
-    target: el.settsCont,
+    target: el.settingsContainer,
     play() {
-        this.target.animate(settsContAnim.frames, settsContAnim.timing)
+        this.target.animate(settingsContainerAnim.frames, settingsContainerAnim.timing)
         reverseDirection(this)
     },
 }
@@ -347,7 +343,7 @@ const game = {
         idleTimer.init()
         lvl.reset()
         lvl.up()
-        highest.render()
+        highscore.render()
     },
     lvlUp() {
         corrrectAnim.play()
@@ -355,17 +351,17 @@ const game = {
         lvl.up()
         timer.start()
     },
-    over(inp) {
+    over(answerInput) {
         wrongAnim.play()
         let { num1, num2, answer } = ques // in dev
-        console.log(`GAME OVER\n${num1} ${num2} ${answer}\n${inp}`) // in dev
+        console.log(`GAME OVER\n${num1} ${num2} ${answer}\n${answerInput}`) // in dev
         timer.reset() // needed?
         lvl.reset()
         lvl.up()
     },
     evalInput(e) {
-        el.inp.value == ques.answer ? game.lvlUp() : game.over(el.inp.value)
-        el.inp.value = ""
+        el.answerInput.value == ques.answer ? game.lvlUp() : game.over(el.answerInput.value)
+        el.answerInput.value = ""
     },
 }
 
@@ -374,8 +370,8 @@ const game = {
     // settings button and popup
     el.tripBar.addEventListener("click", (e) => {
         tripAnim.play()
-        settsContAnim.play()
-        el.settsCont.classList.toggle("hide")
+        settingsContainerAnim.play()
+        el.settingsContainer.classList.toggle("hide")
     })
     // For minimum number setting
     el.min.addEventListener("input", (e) => {
@@ -402,9 +398,9 @@ const game = {
         timer.render() // ???
     })
     // starts eval when anser is submitted
-    el.inp.addEventListener("change", game.evalInput)
+    el.answerInput.addEventListener("change", game.evalInput)
     // prevent up-down arrows from submitting
-    el.inp.addEventListener("keydown", (e) => {
+    el.answerInput.addEventListener("keydown", (e) => {
         ; (e.key == "ArrowUp" || e.key == "ArrowDown") && e.preventDefault()
     })
 }

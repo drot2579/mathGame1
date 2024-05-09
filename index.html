@@ -1,87 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Math Game1</title>
+    <title>Math Game</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="style.css" />
     <script type="module" src="script.js"></script>
 </head>
-
 <body>
     <nav>
-        <h1>Basic Math Game</h1>
+        <h1 id="navTitle">Basic Math Game</h1>
         <button id="tripBar">
             <div class="bar bar1"></div>
             <div class="bar bar2"></div>
             <div class="bar bar3"></div>
         </button>
     </nav>
-
     <!-- ----- GAME START ----- -->
     <main>
-
-        <div class="lvlDiv">
+        <div id="lvlDiv" class="lvlDiv">
             <h2 id="lvl">0</h2>
         </div>
-
-        <div id="quesDiv" class="quesDiv">
+        <div id="questionDiv" class="questionDiv">
             <h1 id="num1">00</h1>
-            <h1 id="sign">+</h1>
+            <h1 id="plusSign">+</h1>
             <h1 id="num2">00</h1>
         </div>
-
-        <div class="inpDiv">
-            <input id="inp" type="number" autofocus />
+        <div class="inputDiv">
+            <input id="answerInput" type="number" autofocus />
         </div>
-
-        <div class="timeDiv">
+        <div id="timeDiv" class="timeDiv">
             <h2 id="time">6000</h2>
             <span>miliseconds</span>
         </div>
-
-        <div class="highestDiv">
-            <span>Highest Level</span>
-            <h2 id="highest">0</h2>
+        <div id="highscoreDiv" class="highscoreDiv">
+            <span>Highscore</span>
+            <h2 id="highscore">0</h2>
         </div>
-
     </main>
-    <!-- ----- GAME END ----- -->
-
     <!-- ----- SETTINGS START----- -->
-    <section id="settsCont" class="setts hide">
-
+    <section id="settingsContainer" class="settings hide">
         <h1>Settings</h1>
-
+        <div class="hLine"></div>
         <div class="maxMinDiv">
-
             <div>
                 <label for="min">Minimum Number</label>
-                <p id="minDisp">50</p>
                 <input type="range" id="min" min="50" max="950" step="50" value="50" />
+                <span id="minDisp">50</span>
             </div>
-
             <div>
                 <label for="max">Maximum Number</label>
-                <p id="maxDisp">100</p>
                 <input type="range" id="max" min="100" max="1000" step="50" value="50" />
+                <span id="maxDisp">100</span>
             </div>
-
         </div>
-
         <div class="timeSettDiv">
             <div>
                 <label for="timeSett">Time Limit</label>
-                <p id="timeSettDisp">6000</p>
                 <input type="range" id="timeSett" min="1000" max="10000" step="1000" value="6000" />
+                <p id="timeSettDisp">6000</p>
             </div>
         </div>
-        <!-- ----- SETTINGS END----- -->
-
     </section>
-
 </body>
-
 </html>

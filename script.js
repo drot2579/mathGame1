@@ -287,7 +287,7 @@ const tripAnim = {
         { transform: "scaleX(0)", backgroundColor: "yellow", },
     ],
     timing: {
-        duration: 200,
+        duration: 300,
         fill: "forwards",
         direction: "normal",
         easing: "ease"

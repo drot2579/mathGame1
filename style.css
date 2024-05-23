@@ -17,7 +17,7 @@ html {
     --yellow2: hsl(60, 100%, 64%);
     --aqua1: hsl(180, 100%, 82%);
     --heightNav: 4rem;
-    --colorSettingsLeft: #ddd ;
+    --colorSettingsLeft: #ddd;
     background-color: hsl(55, 100%, 60%);
 }
 body {
@@ -27,6 +27,7 @@ body {
     overflow: hidden;
 }
 nav {
+    position: relative;
     background-color: black;
     color: white;
     width: 100%;
@@ -51,6 +52,22 @@ main {
     margin: 0 auto;
     padding-top: 1.5rem;
     position: relative;
+}
+.logo {
+    position: absolute;
+    left: 0.25rem;
+    height: 100%;
+    & img {
+        height: 100%;
+        /* background-color: purple; */
+        /* filter: invert(0.8); */
+        /* filter: blur(1px); */
+        filter: brightness(0.5);
+        transition: 300ms;
+        &:hover {
+            filter: brightness(0.8);
+        }
+    }
 }
 main > * {
     border-radius: 1.5rem;
@@ -104,8 +121,8 @@ input::-webkit-inner-spin-button {
 }
 /* ///////////////////////////// TRIPBAR //////////////////////////////////// */
 #tripBar {
-    height: calc( var(--heightNav) * 0.7);
-    width:  calc( var(--heightNav) * 0.8);
+    height: calc(var(--heightNav) * 0.7);
+    width: calc(var(--heightNav) * 0.8);
     padding: 0.15rem 0.1rem;
     background-color: inherit;
     display: flex;
@@ -114,6 +131,7 @@ input::-webkit-inner-spin-button {
     align-items: center;
     position: absolute;
     right: 2vw;
+    scale: 0.8;
 }
 .bar {
     background-color: #fafafa;

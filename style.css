@@ -141,7 +141,7 @@ input::-webkit-inner-spin-button {
 /* ///////////////////////////// SETTINGS /////////////////////////////////// */
 .settings {
     position: fixed;
-    width: min(72%, 800px);
+    width: min(90%, 800px);
     height: 80%;
     top: 10%;
     left: 50%;
